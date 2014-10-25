@@ -138,6 +138,7 @@ describe "PamFaxr" do
                  }
              }
     @countries = JSON.parse IO.read('spec/list_countries.json')
+    @zones     = JSON.parse IO.read('spec/list_zones.json')
 
     @available_covers = { "result"                 => 
                           { "code"                 => "success", 
@@ -362,6 +363,11 @@ describe "PamFaxr" do
                           :body => @countries.to_json,
                           :content_type => "application/json")
 
+    FakeWeb.register_uri(:get,
+                          "https://sandbox-api.pamfax.biz/Common/ListZones?apikey=name&apisecret=abd123&apioutputformat=API_FORMAT_JSON&username=fooey&password=foobar",
+                          :body => @zones.to_json,
+                          :content_type => "application/json")
+
     FakeWeb.register_uri(:post, 
                          "https://sandbox-api.pamfax.biz/FaxJob/AddFile?apikey=name&apisecret=abd123&apioutputformat=API_FORMAT_JSON&usertoken=m3cv0d9gqb69taajcu76nqv5eccht76t",
                          :body => @local_file_upload.to_json,
@@ -494,6 +500,10 @@ describe "PamFaxr" do
   
   it 'should list the recipients' do
     expect(@pamfaxr.list_recipients).to eq(@recipients)
+  end
+
+  it 'should list the zones' do
+    expect(PamFaxrApi::Common.list_zones).to eq(@zones)
   end
   
   it 'should cancel an outstanding fax request' do

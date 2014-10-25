@@ -1,0 +1,53 @@
+{
+  "result": {
+    "code": "success",
+    "type": "",
+    "count": 1,
+    "message": ""
+  },
+  "ZoneList": {
+    "type": "list",
+    "content": [
+      {
+        "zone_id": 1,
+        "price": 0.12,
+        "price_pro": 0.078
+      },
+      {
+        "zone_id": 2,
+        "price": 0.19,
+        "price_pro": 0.13
+      },
+      {
+        "zone_id": 3,
+        "price": 0.39,
+        "price_pro": 0.26
+      },
+      {
+        "zone_id": 4,
+        "price": 0.58,
+        "price_pro": 0.39
+      },
+      {
+        "zone_id": 5,
+        "price": 0.71,
+        "price_pro": 0.52
+      },
+      {
+        "zone_id": 6,
+        "price": 0.97,
+        "price_pro": 0.65
+      },
+      {
+        "zone_id": 7,
+        "price": 5.12,
+        "price_pro": 4.8
+      },
+      {
+        "zone_id": 8,
+        "price": 29.11,
+        "price_pro": 24.12
+      }
+    ]
+  }
+}

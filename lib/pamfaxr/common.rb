@@ -1,10 +1,14 @@
 module PamFaxrApi
   class Common < PamFaxrApi::Resource
+
+    @@base_resource = '/Common'
+
     def self.list_countries
-      base_resource = '/Common'
-      resource = base_resource + '/ListCountries'
-      puts resource
-      get(resource)
+      get(@@base_resource, '/ListCountries')
+    end
+
+    def self.list_zones
+      get(@@base_resource, '/ListZones')
     end
   end
 end
