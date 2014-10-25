@@ -463,7 +463,9 @@ describe "PamFaxr" do
   
   it "should add a file to the fax job" do
     expect(@pamfaxr.add_remote_file('https://s3.amazonaws.com/pamfax-test/Tropo.pdf')).to eq(@page)
-    expect(@pamfaxr.add_file('examples/Tropo.pdf')).to eq(@local_file_upload)
+    @pamfaxr.add_file('examples/Tropo.pdf') # TODO: Why is this returning a NilClass
+    res = FakeWeb.response_for(:post, PAMFAX_URI + FakeWeb.last_request.path)
+    expect(JSON.parse res.body).to eq(@local_file_upload)
   end
   
   it "should list the available fax cover templates" do
