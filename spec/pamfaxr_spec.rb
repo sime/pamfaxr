@@ -412,13 +412,13 @@ describe "PamFaxr" do
   end
   
   it "should create an instance of PamFax" do
-    @pamfaxr.instance_of?(PamFaxr).should == true
+    expect(@pamfaxr.instance_of?(PamFaxr)).to eq(true)
   end
   
   it "should create an instance of PamFax without the base_uri, api_key or api_secret included" do
     pamfaxr = PamFaxr.new :username     => 'fooey', 
                           :password     => 'looey'
-    pamfaxr.instance_of?(PamFaxr).should == true
+    expect(pamfaxr.instance_of?(PamFaxr)).to eq(true)
   end
   
   it "should get an error if invalid user details are requested" do
@@ -429,7 +429,7 @@ describe "PamFaxr" do
                            :username     => 'fooey', 
                            :password     => 'looey'
     rescue => e
-      e.to_s.should == "Unknown user name or incorrect password"
+      expect(e.to_s).to eq("Unknown user name or incorrect password")
     end
   end
   
@@ -437,49 +437,49 @@ describe "PamFaxr" do
     begin
       @pamfaxr.foobar
     rescue => e
-      e.to_s.should == 'Unknown method foobar'
+      expect(e.to_s).to eq('Unknown method foobar')
     end
   end
   
   it "should create a new fax instance" do
-    @pamfaxr.create_fax_job.should == @create_result
+    expect(@pamfaxr.create_fax_job).to eq(@create_result)
   end
   
   it "should create a new fax receipient" do
-    @pamfaxr.add_recipient('+14155551212').should == @add_recipient_result
+    expect(@pamfaxr.add_recipient('+14155551212')).to eq(@add_recipient_result)
   end
   
   it "should add a new fax cover" do
-    @pamfaxr.set_cover('f340f1b1f65b6df5b5e3f94d95b11daf', 'Hi foobar!').should == { "result" => { "code" => "success", "count" => 0, "message" => "" } }
+    expect(@pamfaxr.set_cover('f340f1b1f65b6df5b5e3f94d95b11daf', 'Hi foobar!')).to eq({ "result" => { "code" => "success", "count" => 0, "message" => "" } })
   end
   
   it "should return the fax state when no files attached" do
-    @pamfaxr.get_state.should == @state
+    expect(@pamfaxr.get_state).to eq(@state)
   end
   
   it "should reject the fax send request if no pages added" do
-    @pamfaxr.send_fax.should == @no_files
+    expect(@pamfaxr.send_fax).to eq(@no_files)
   end
   
   it "should add a file to the fax job" do
-    @pamfaxr.add_remote_file('https://s3.amazonaws.com/pamfax-test/Tropo.pdf').should == @page
-    @pamfaxr.add_file('examples/Tropo.pdf').should == @local_file_upload
+    expect(@pamfaxr.add_remote_file('https://s3.amazonaws.com/pamfax-test/Tropo.pdf')).to eq(@page)
+    expect(@pamfaxr.add_file('examples/Tropo.pdf')).to eq(@local_file_upload)
   end
   
   it "should list the available fax cover templates" do
-    @pamfaxr.list_available_covers.should == @available_covers
+    expect(@pamfaxr.list_available_covers).to eq(@available_covers)
   end
   
   it 'should list the assoicated files' do
-    @pamfaxr.list_fax_files.should == @fax_files
+    expect(@pamfaxr.list_fax_files).to eq(@fax_files)
   end
   
   it 'should list the recipients' do
-    @pamfaxr.list_recipients.should == @recipients
+    expect(@pamfaxr.list_recipients).to eq(@recipients)
   end
   
   it 'should cancel an outstanding fax request' do
-    @pamfaxr.cancel('JfTenDWumWZZBq').should == @success
+    expect(@pamfaxr.cancel('JfTenDWumWZZBq')).to eq(@success)
   end
   
   it 'should clone a fax' do
@@ -487,28 +487,28 @@ describe "PamFaxr" do
   end
   
   it 'should allow us to preview all of the pages' do
-    @pamfaxr.get_preview('JfTenDWumWZZBq').should == @fax_preview
+    expect(@pamfaxr.get_preview('JfTenDWumWZZBq')).to eq(@fax_preview)
   end
   
   it 'should send the fax later' do
-    @pamfaxr.send_fax_later.should == @no_files
+    expect(@pamfaxr.send_fax_later).to eq(@no_files)
   end
   
   describe 'remove' do
     it 'should remove all files' do
-      @pamfaxr.remove_all_files.should == @success
+      expect(@pamfaxr.remove_all_files).to eq(@success)
     end
     
     it 'should remove all recipients' do
-      @pamfaxr.remove_all_recipients.should == @success
+      expect(@pamfaxr.remove_all_recipients).to eq(@success)
     end
     
     it 'should remove the cover' do
-      @pamfaxr.remove_cover.should == @success
+      expect(@pamfaxr.remove_cover).to eq(@success)
     end
     
     it 'should remove the cover' do
-      @pamfaxr.remove_file('1234').should == @success
+      expect(@pamfaxr.remove_file('1234')).to eq(@success)
     end
   end
 end
