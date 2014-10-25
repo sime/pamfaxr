@@ -6,6 +6,14 @@ PAMFAX_API_SECRET = 'abd123'
 PAMFAX_USERNAME   = 'fooey'
 PAMFAX_PASSWORD   = 'foobar'
 
+PamFaxrApi.configure do |c|
+  c.base_uri =   'https://sandbox-api.pamfax.biz'
+  c.username =   'fooey'
+  c.password =   'foobar'
+  c.api_key  =   'name'
+  c.api_secret = 'abd123'
+end
+
 FakeWeb.allow_net_connect = false
 
 describe "PamFaxr" do
@@ -129,7 +137,8 @@ describe "PamFaxr" do
                                   "state" => "editing"
                  }
              }
-    
+    @countries = JSON.parse IO.read('spec/list_countries.json')
+
     @available_covers = { "result"                 => 
                           { "code"                 => "success", 
                             "count"                => 1, 
@@ -347,7 +356,12 @@ describe "PamFaxr" do
                           "https://sandbox-api.pamfax.biz/FaxJob/ListAvailableCovers?apikey=name&apisecret=abd123&apioutputformat=API_FORMAT_JSON&usertoken=m3cv0d9gqb69taajcu76nqv5eccht76t", 
                           :body => @available_covers.to_json,
                           :content_type => "application/json")
-                                    
+
+    FakeWeb.register_uri(:get,
+                          "https://sandbox-api.pamfax.biz/Common/ListCountries?apikey=name&apisecret=abd123&apioutputformat=API_FORMAT_JSON&username=fooey&password=foobar",
+                          :body => @countries.to_json,
+                          :content_type => "application/json")
+
     FakeWeb.register_uri(:post, 
                          "https://sandbox-api.pamfax.biz/FaxJob/AddFile?apikey=name&apisecret=abd123&apioutputformat=API_FORMAT_JSON&usertoken=m3cv0d9gqb69taajcu76nqv5eccht76t",
                          :body => @local_file_upload.to_json,
@@ -469,7 +483,11 @@ describe "PamFaxr" do
   it "should list the available fax cover templates" do
     expect(@pamfaxr.list_available_covers).to eq(@available_covers)
   end
-  
+
+  it "should list the available countries" do
+    expect(PamFaxrApi::Common.list_countries).to eq(@countries)
+  end
+
   it 'should list the assoicated files' do
     expect(@pamfaxr.list_fax_files).to eq(@fax_files)
   end
@@ -512,3 +530,4 @@ describe "PamFaxr" do
     end
   end
 end
+

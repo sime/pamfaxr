@@ -693,33 +693,5 @@ fax_state['Files']['content'].each { |file| converting = true if file['state'] =
     converting
   end
   
-  ##
-  # Gets the resource
-  #
-  # @param [required, String] resource to get
-  # @return [Hash] the result of the request
-  def get(resource)
-    begin
-      body = @http.get(resource, { 'Content-Type' => 'application/json' }).body
-      JSON.parse body
-    rescue => error
-    end
-  end
-  
-  ##
-  # Posts to the resource
-  #
-  # @param [required, String] resource to post
-  # @param [requried, String] data of the body to post
-  # @param [required, Hash] headers to send with the post request
-  #
-  # @return [Hash] the result of the request
-  def post(resource, data, headers={})
-    begin
-      body = @http.post(resource, data, headers).body
-      JSON.parse body
-    rescue => error
-    end
-  end
 end
 

@@ -1,5 +1,6 @@
 class PamFaxr
   autoload(:FaxJob, File.expand_path('fax_job', __dir__))
+  autoload(:Common, File.expand_path('common', __dir__))
   ##
   # Creates an instance of the PamFax class
   #
@@ -15,11 +16,11 @@ class PamFaxr
     base_uri   = options[:base_uri]   || "https://api.pamfax.biz"
     api_key    = options[:api_key]    || "tropo_developer"
     api_secret = options[:api_secret] || "7xGi0xAqcg3YXw"
-    
+
     options.merge!({ :http            => create_http(URI.parse(base_uri)),
                      :api_credentials => "?apikey=#{api_key}&apisecret=#{api_secret}&apioutputformat=API_FORMAT_JSON" })
     options[:api_credentials] = options[:api_credentials] + "&usertoken=#{get_user_token(options)}"
-    
+
     @fax_job = FaxJob.new options
   end
   
@@ -75,4 +76,34 @@ class PamFaxr
     http.use_ssl = true
     http
   end
+
+  ##
+  # Gets the resource
+  #
+  # @param [required, String] resource to get
+  # @return [Hash] the result of the request
+  def get(resource)
+    begin
+      body = @http.get(resource, { 'Content-Type' => 'application/json' }).body
+      JSON.parse body
+    rescue => error
+    end
+  end
+
+  ##
+  # Posts to the resource
+  #
+  # @param [required, String] resource to post
+  # @param [requried, String] data of the body to post
+  # @param [required, Hash] headers to send with the post request
+  #
+  # @return [Hash] the result of the request
+  def post(resource, data, headers={})
+    begin
+      body = @http.post(resource, data, headers).body
+      JSON.parse body
+    rescue => error
+    end
+  end
 end
+
