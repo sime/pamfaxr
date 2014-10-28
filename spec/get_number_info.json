@@ -1,0 +1,19 @@
+{
+   "result":{
+      "code":"success",
+      "type":"",
+      "count":1,
+      "message":""
+   },
+   "NumberInfo":{
+      "number":"+61212341234",
+      "number_type":"FIXED",
+      "zone":"1",
+      "country_code":"AU",
+      "description":"Central East Region",
+      "area_code":"2",
+      "city":"Central East Region",
+      "country_prefix":"61",
+      "formatted_number":"+61 2 12341234"
+   }
+}

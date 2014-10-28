@@ -140,6 +140,9 @@ describe "PamFaxr" do
     @countries = JSON.parse IO.read('spec/list_countries.json')
     @zones     = JSON.parse IO.read('spec/list_zones.json')
 
+    @number_info = JSON.parse IO.read('spec/get_number_info.json')
+    @page_price  = JSON.parse IO.read('spec/get_page_price.json')
+
     @available_covers = { "result"                 => 
                           { "code"                 => "success", 
                             "count"                => 1, 
@@ -368,6 +371,16 @@ describe "PamFaxr" do
                           :body => @zones.to_json,
                           :content_type => "application/json")
 
+    FakeWeb.register_uri(:get,
+                          "https://sandbox-api.pamfax.biz/NumberInfo/GetNumberInfo?apikey=name&apioutputformat=API_FORMAT_JSON&apisecret=abd123&faxnumber=%2B61212341234&password=foobar&username=fooey",
+                          :body => @number_info.to_json,
+                          :content_type => "application/json")
+
+    FakeWeb.register_uri(:get,
+                          "https://sandbox-api.pamfax.biz/NumberInfo/GetPagePrice?apikey=name&apioutputformat=API_FORMAT_JSON&apisecret=abd123&faxnumber=%2B61212341234&password=foobar&username=fooey",
+                          :body => @page_price.to_json,
+                          :content_type => "application/json")
+
     FakeWeb.register_uri(:post, 
                          "https://sandbox-api.pamfax.biz/FaxJob/AddFile?apikey=name&apisecret=abd123&apioutputformat=API_FORMAT_JSON&usertoken=m3cv0d9gqb69taajcu76nqv5eccht76t",
                          :body => @local_file_upload.to_json,
@@ -492,6 +505,14 @@ describe "PamFaxr" do
 
   it "should list the available countries" do
     expect(PamFaxrApi::Common.list_countries).to eq(@countries)
+  end
+
+  it "get info about a number" do
+    expect(PamFaxrApi::NumberInfo.get_number_info('+61212341234')).to eq(@number_info)
+  end
+
+  it "get page price based on a  fax number" do
+    expect(PamFaxrApi::NumberInfo.get_page_price('+61212341234')).to eq(@page_price)
   end
 
   it 'should list the assoicated files' do

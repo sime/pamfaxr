@@ -2,6 +2,7 @@ module PamFaxrApi
 
   autoload(:Resource, File.expand_path('resource', __dir__))
   autoload(:Common, File.expand_path('common', __dir__))
+  autoload(:NumberInfo, File.expand_path('number_info', __dir__))
 
   class Configuration
     attr_accessor :base_uri

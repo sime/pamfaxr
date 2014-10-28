@@ -3,9 +3,9 @@ module PamFaxrApi
     protected
 
       def self.get(base, opts = {})
-
+        data = opts[:data] ||= {}
         http = create_http(URI.parse(PamFaxrApi.configuration.base_uri))
-        resource = self.build_query(base + opts[:method])
+        resource = self.build_query(base + opts[:method], data)
 
         begin
           body = http.get(resource, { 'Content-Type' => 'application/json' }).body
@@ -22,16 +22,16 @@ module PamFaxrApi
 
     private
 
-      def self.build_query(resource)
-        uri = Addressable::URI.new
-        uri.query_values = {
+      def self.build_query(resource, data)
+        api = {
           :username => PamFaxrApi.configuration.username,
           :password => PamFaxrApi.configuration.password,
           :apikey => PamFaxrApi.configuration.api_key,
           :apisecret => PamFaxrApi.configuration.api_secret,
           :apioutputformat => 'API_FORMAT_JSON'
         }
-
+        uri = Addressable::URI.new
+        uri.query_values = api.merge(data)
         resource + '?' + uri.query
       end
   end
