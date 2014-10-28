@@ -23,14 +23,16 @@ module PamFaxrApi
     private
 
       def self.build_query(resource)
-        username   = PamFaxrApi.configuration.username
-        password   = PamFaxrApi.configuration.password
-        api_key    = PamFaxrApi.configuration.api_key
-        api_secret = PamFaxrApi.configuration.api_secret
+        uri = Addressable::URI.new
+        uri.query_values = {
+          :username => PamFaxrApi.configuration.username,
+          :password => PamFaxrApi.configuration.password,
+          :apikey => PamFaxrApi.configuration.api_key,
+          :apisecret => PamFaxrApi.configuration.api_secret,
+          :apioutputformat => 'API_FORMAT_JSON'
+        }
 
-        api_credentials = "?apikey=#{api_key}&apisecret=#{api_secret}&apioutputformat=API_FORMAT_JSON&username=#{username}&password=#{password}"
-
-        resource + api_credentials
+        resource + '?' + uri.query
       end
   end
 end
