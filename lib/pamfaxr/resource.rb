@@ -2,10 +2,10 @@ module PamFaxrApi
   class Resource
     protected
 
-      def self.get(base, route)
+      def self.get(base, opts = {})
 
         http = create_http(URI.parse(PamFaxrApi.configuration.base_uri))
-        resource = self.build_query(base + route)
+        resource = self.build_query(base + opts[:method])
 
         begin
           body = http.get(resource, { 'Content-Type' => 'application/json' }).body
