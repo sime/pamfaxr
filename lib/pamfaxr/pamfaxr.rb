@@ -19,7 +19,9 @@ class PamFaxr
 
     options.merge!({ :http            => create_http(URI.parse(base_uri)),
                      :api_credentials => "?apikey=#{api_key}&apisecret=#{api_secret}&apioutputformat=API_FORMAT_JSON" })
-    options[:api_credentials] = options[:api_credentials] + "&usertoken=#{get_user_token(options)}"
+
+    @user_token = get_user_token(options)
+    options[:api_credentials] = options[:api_credentials] + "&usertoken=#{@user_token}"
 
     @fax_job = FaxJob.new options
   end
