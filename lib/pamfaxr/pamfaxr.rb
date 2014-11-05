@@ -1,6 +1,9 @@
 class PamFaxr
   autoload(:FaxJob, File.expand_path('fax_job', __dir__))
   autoload(:Common, File.expand_path('common', __dir__))
+
+  attr_reader :user_token
+
   ##
   # Creates an instance of the PamFax class
   #
