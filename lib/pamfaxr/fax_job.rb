@@ -409,6 +409,73 @@ class FaxJob < PamFaxr
     resource = URI.encode(@base_resource + "/SetCover" + @api_credentials + "&template_id=#{template_id}&text=#{text}")
     get(resource)
   end
+
+  ##
+  # Gets the recipient details of a sent fax
+  #
+  # @param [required, String] uuid of the fax to get the preview for
+  # 
+  # @return [Hash] the result of the preview request
+  #
+  # @example get a preview of the fax pages
+  #   pamfaxr.get_fax_details('ebKVV4XGwx99Wu')
+  #
+  #   returns:
+  #
+  # {
+  #    "FaxHistoryModel" : {
+  #       "outfile_uuid" : "klyljz7n4TnImx",
+  #       "status_message" : "Erfolgreich",
+  #       "uuid" : "HOok1CRnFYUgDN",
+  #       "state" : "success",
+  #       "refunded" : 0.17,
+  #       "sender_fax" : null,
+  #       "price_source" : "SLOW",
+  #       "sent" : "2014-11-08 13:44:17",
+  #       "transmission_report" : "",
+  #       "country_prefix" : "61",
+  #       "sender_name" : null,
+  #       "cost" : 0.34,
+  #       "cover_text" : null,
+  #       "name" : "",
+  #       "removed_from_trash" : null,
+  #       "description" : "Sidney",
+  #       "published" : null,
+  #       "price" : 0.51,
+  #       "number_type" : "FIXED",
+  #       "cancelled" : null,
+  #       "pages" : "1",
+  #       "number" : "+61295655710",
+  #       "pages_sent" : "1",
+  #       "zone" : "1",
+  #       "formatted_number" : "+61 2 95655710",
+  #       "cover_data" : null,
+  #       "pages" : "1",
+  #       "number" : "+61295655710",
+  #       "pages_sent" : "1",
+  #       "zone" : "1",
+  #       "formatted_number" : "+61 2 95655710",
+  #       "cover_data" : null,
+  #       "country" : "AU",
+  #       "area_code" : "2",
+  #       "fax_provider_id" : 1,
+  #       "status_code" : 0,
+  #       "deleted" : null,
+  #       "created" : "2014-11-08 13:43:42",
+  #       "visible_until" : "2014-12-08 13:44:17",
+  #       "files_present" : "1"
+  #    },
+  #    "result" : {
+  #       "count" : 1,
+  #       "type" : "",
+  #       "message" : "",
+  #       "code" : "success"
+  #    }
+  # }
+  def get_fax_details(uuid)
+    resource = URI.encode("/FaxHistory/GetFaxDetails" + @api_credentials + "&uuid=#{uuid}")
+    get(resource)
+  end
   
   ##
   # Obtains the state of the FaxJob build, may block or return immediately

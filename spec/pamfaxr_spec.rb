@@ -143,6 +143,8 @@ describe "PamFaxr" do
     @number_info = JSON.parse IO.read('spec/get_number_info.json')
     @page_price  = JSON.parse IO.read('spec/get_page_price.json')
 
+    @fax_details = JSON.parse IO.read('spec/get_fax_details.json')
+
     @available_covers = { "result"                 => 
                           { "code"                 => "success", 
                             "count"                => 1, 
@@ -430,6 +432,12 @@ describe "PamFaxr" do
                           :status => ["200", "OK"])
 
     FakeWeb.register_uri(:get, 
+                          "https://sandbox-api.pamfax.biz/FaxHistory/GetFaxDetails?apikey=name&apisecret=abd123&apioutputformat=API_FORMAT_JSON&usertoken=m3cv0d9gqb69taajcu76nqv5eccht76t&uuid=HOok1CRnFYUgDN",
+                          :body => @fax_details.to_json,
+                          :content_type => "application/json",
+                          :status => ["200", "OK"])
+
+    FakeWeb.register_uri(:get, 
                           %r|https://sandbox-api.pamfax.biz/FaxJob/Remove|,
                           :body => @success.to_json,
                           :content_type => "application/json",
@@ -526,7 +534,7 @@ describe "PamFaxr" do
   it 'should list the zones' do
     expect(PamFaxrApi::Common.list_zones).to eq(@zones)
   end
-  
+
   it 'should cancel an outstanding fax request' do
     expect(@pamfaxr.cancel('JfTenDWumWZZBq')).to eq(@success)
   end
@@ -535,6 +543,10 @@ describe "PamFaxr" do
     pending('Can not send from the sandbox, so fax is never in a state to see a valid response.')
   end
   
+  it 'should allow us to get recipient data' do
+    expect(@pamfaxr.get_fax_details('HOok1CRnFYUgDN')).to eq(@fax_details)
+  end
+
   it 'should allow us to preview all of the pages' do
     expect(@pamfaxr.get_preview('JfTenDWumWZZBq')).to eq(@fax_preview)
   end
