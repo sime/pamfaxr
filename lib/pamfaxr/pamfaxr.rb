@@ -88,11 +88,8 @@ class PamFaxr
   # @param [required, String] resource to get
   # @return [Hash] the result of the request
   def get(resource)
-    begin
-      body = @http.get(resource, { 'Content-Type' => 'application/json' }).body
-      JSON.parse body
-    rescue => error
-    end
+    body = @http.get(resource, { 'Content-Type' => 'application/json' }).body
+    JSON.parse body
   end
 
   ##
@@ -104,11 +101,8 @@ class PamFaxr
   #
   # @return [Hash] the result of the request
   def post(resource, data, headers={})
-    begin
-      body = @http.post(resource, data, headers).body
-      JSON.parse body
-    rescue => error
-    end
+    body = @http.post(resource, data, headers).body
+    JSON.parse body
   end
 end
 

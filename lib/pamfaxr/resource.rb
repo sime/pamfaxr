@@ -7,11 +7,8 @@ module PamFaxrApi
         http = create_http(URI.parse(PamFaxrApi.configuration.base_uri))
         resource = self.build_query(base + opts[:method], data)
 
-        begin
-          body = http.get(resource, { 'Content-Type' => 'application/json' }).body
-          JSON.parse body
-        rescue => error
-        end
+        body = http.get(resource, { 'Content-Type' => 'application/json' }).body
+        JSON.parse body
       end
 
       def self.create_http(base_uri)
