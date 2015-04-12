@@ -539,10 +539,6 @@ describe "PamFaxr" do
     expect(@pamfaxr.cancel('JfTenDWumWZZBq')).to eq(@success)
   end
   
-  it 'should clone a fax' do
-    pending('Can not send from the sandbox, so fax is never in a state to see a valid response.')
-  end
-  
   it 'should allow us to get recipient data' do
     expect(@pamfaxr.get_fax_details('HOok1CRnFYUgDN')).to eq(@fax_details)
   end
