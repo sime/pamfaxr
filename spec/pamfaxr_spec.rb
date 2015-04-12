@@ -464,7 +464,7 @@ describe "PamFaxr" do
   
   it "should get an error if invalid user details are requested" do
     begin
-      pamfax = PamFaxr.new :base_uri     => PAMFAX_URI,
+      PamFaxr.new :base_uri     => PAMFAX_URI,
                            :api_key      => 'tropo', 
                            :api_secret   => 'abc123', 
                            :username     => 'fooey', 
