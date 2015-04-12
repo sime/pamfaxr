@@ -3,6 +3,7 @@ class PamFaxr
   autoload(:Common, File.expand_path('common', __dir__))
 
   attr_reader :user_token
+  attr_reader :user
 
   ##
   # Creates an instance of the PamFax class
@@ -67,7 +68,9 @@ class PamFaxr
   def verify_user(options={})
     resource = "/Session/VerifyUser/#{options[:api_credentials]}&username=#{options[:username]}&password=#{options[:password]}"
     body = options[:http].get(resource).body 
-    JSON.parse body
+    response = JSON.parse body
+    @user = response["User"]
+    response
   end
   
   ##

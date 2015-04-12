@@ -550,6 +550,10 @@ describe "PamFaxr" do
   it 'should send the fax later' do
     expect(@pamfaxr.send_fax_later).to eq(@no_files)
   end
+
+  it 'should have User details' do
+    expect(@pamfaxr.user).to eq (@user_found["User"])
+  end
   
   describe 'remove' do
     it 'should remove all files' do
